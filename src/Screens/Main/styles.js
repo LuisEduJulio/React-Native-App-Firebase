@@ -4,19 +4,35 @@ export const Styles = {
     },
     Header: {
         flex: 1,
-        display: 'flex',
+        flexWrap: 'wrap',
         flexDirection: 'row',
-        justifyContent: 'center',
-        height: 100,
-        backgroundColor: '#2E2EFE'
+        margin: 10,
+        backgroundColor: '#FFA500'
     },
     Title: {
         marginTop: 40,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#FFF',
+        color: '#000000',
         fontSize: 30
+    },
+    Card: {
+       flex: 1,
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    Avatar: {
+        margin: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+    },
+    Button: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
     },
     Body: {
         flex: 8

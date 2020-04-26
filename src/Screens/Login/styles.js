@@ -25,8 +25,11 @@ export const Styles = {
         justifyContent: 'center',
         alignItems: 'center',
     },
-    ButtonSeparate: {
+    ButtonEnter: {
         width: 330,
         margin: 2
+    },
+    ButtonRegister: {
+        color: 'black'
     }
 }

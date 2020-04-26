@@ -1,7 +1,9 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { AsyncStorage } from 'react-native';
+import firebase from '../../src/Service/firebase';
 
 import Main from '../Screens/Main'
+
 
 const AuthContext = createContext({ signed: false, user: {} });
 
@@ -23,9 +25,38 @@ export const AuthProvider = ({children}) => {
         }
         loadStorageData();
     }, [])
+
+
+    async function Login(email, password){
+        try{
+        await firebase.login(email, password)
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
+
+        const token = firebase.getCurrenttoken();
+        AsyncStorage.setItem('token', JSON.parse(token));
+        const Uid = firebase.getCurrentUid();
+        AsyncStorage.setItem('uid', JSON.parse(Uid));
+
+        const teste = AsyncStorage.getItem('token');
+        console.log(teste);
+        
+        navigationTela.dispatch(
+            CommonActions.reset({
+            index: 1,
+            routes: [
+                { name: 'Main' },
+            ],
+            })
+        );     
+        //navigation.navigate('Main');
+        }catch(error){
+        Alert.alert(error.message);
+        }
+    }
     
     return (
-        <AuthContext.Provider value={{ signed: !! user, user, Main }} >
+        <AuthContext.Provider value={{ signed: !! user, user, Main, Login }} >
             {children}
         </AuthContext.Provider>
     )

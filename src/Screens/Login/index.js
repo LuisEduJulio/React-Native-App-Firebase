@@ -1,40 +1,57 @@
-import React, {useState, useRef} from 'react';
-import {View, Alert, AsyncStorage} from 'react-native';
+import React, {useState, useRef, useContext} from 'react';
+import {View, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import { Avatar, TextInput, Button } from 'react-native-paper';
+import AuthContext from '../../Contexts/Auth'
 import firebase from '../../Service/firebase'
 import {Styles} from './styles';
 
-function Login() {
+function Login({navigation}) {
   const [form, setForm] = useState({email: '', password: ''});
   const passwordRef = useRef();
-  const navigation = useNavigation();
+  const navigationTela = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const { signed, Login } = useContext(AuthContext);
 
-  async function handleLogin(e){
+  console.log(signed);
+
+  
+  async function handleSignIn(e){
     e.preventDefault();
-
+    
     const {email, password} = form;
     if(email === ' ' || password === ''){
       Alert.alert('Preencha seu dados!');
     }
     
+    Login(email, password);
+    
     try{
-      await firebase.login(email, password);
+      await firebase.login(email, password)
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
 
       const token = firebase.getCurrenttoken();
-      AsyncStorage.setItem('token', token);
+      AsyncStorage.setItem('token', JSON.parse(token));
       const Uid = firebase.getCurrentUid();
-      AsyncStorage.setItem('uid', Uid);
+      AsyncStorage.setItem('uid', JSON.parse(Uid));
 
-      console.log(token);
-
+      const teste = AsyncStorage.getItem('token');
+      console.log(teste);
+      
+      navigationTela.dispatch(
+          CommonActions.reset({
+          index: 1,
+          routes: [
+              { name: 'Main' },
+          ],
+          })
+      );     
       navigation.navigate('Main');
-    
     }catch(error){
       Alert.alert(error.message);
     }
-
-  }
+  }  
   
   return (
     <View style={Styles.View}>
@@ -63,14 +80,15 @@ function Login() {
             onChangeText={(text) => setForm({...form, password: text })}
             ref={passwordRef}
             returnKeyType='send'
-            onSubmitEditing={handleLogin}
+            onSubmitEditing={handleSignIn}
           />
         </View>
         <View style={Styles.Button}>
-          <Button onPress={handleLogin} mode='contained' style={Styles.ButtonSeparate}>
+          <Button onPress={handleSignIn} mode='contained' style={Styles.ButtonEnter}>
             Entrar
           </Button>
-          <Button onPress={() => navigation.push('Register')} mode='text' style={Styles.ButtonSeparate}>
+          {loading && <ActivityIndicator size='small' color='blue' />}
+          <Button onPress={() => navigation.push('Register')} style={Styles.ButtonRegister}>
             Deseja cadastrar?
           </Button>
         </View>

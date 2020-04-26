@@ -5,9 +5,9 @@ import Main from '../Screens/Main';
 
 const AppStack = createStackNavigator();
 
-const AppRoutes = () => (
+const AppRoutes = ({navigation}) => (
     <AppStack.Navigator>
-        <AppStack.Screen name="Main" component={Main} />
+        <AuthStack.Screen name="Main" component={Main}  />
     </AppStack.Navigator>
 )
 

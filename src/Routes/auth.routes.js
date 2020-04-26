@@ -6,14 +6,14 @@ import Register from '../Screens/Register';
 
 const AuthStack = createStackNavigator();
 
-const AuthRoutes = () => (
+const AuthRoutes = ({navigation}) => (
     <AuthStack.Navigator  
         screenOptions={{
             headerShown: false
         }}
     >
         <AuthStack.Screen name="Login" component={Login} />
-        <AuthStack.Screen name="Register" component={Register} />
+        <AuthStack.Screen name="Register" component={Register} />        
     </AuthStack.Navigator>
 )
 

@@ -12,6 +12,7 @@ function Register() {
   const nomeRef = useRef();
   const passwordRef  = useRef();
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   async function onRegister(e){
     e.preventDefault();
@@ -21,7 +22,9 @@ function Register() {
     }
     
     try{
-      await firebase.register(nome, email, password);
+      await firebase.register(nome, email, password)
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
       
       Alert.alert('Mensagen','Usuário cadastrado!');
 
@@ -76,6 +79,7 @@ function Register() {
           <Button onPress={onRegister}>
             Cadastrar
           </Button>
+          {loading && <ActivityIndicator size='small' color='blue' />}
         </View>
     </View>
   );
