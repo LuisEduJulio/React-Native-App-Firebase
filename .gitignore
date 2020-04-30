@@ -64,3 +64,5 @@ machineid
 rapid_render.json
 storage.json
 ~/.vscode-root
+.expo
+.expo-shared
