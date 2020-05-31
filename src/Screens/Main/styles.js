@@ -1,13 +1,14 @@
-export const Styles = {
+import { StyleSheet } from 'react-native'; 
+
+export const Styles = StyleSheet.create({
     View: {
         flex: 1
     },
     Header: {
         flex: 1,
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        margin: 10,
-        backgroundColor: '#FFA500'
+        display: 'flex',
+        backgroundColor: '#FFA500',
+        height: 100
     },
     Title: {
         marginTop: 40,
@@ -40,6 +41,4 @@ export const Styles = {
     Footer: {
         flex: 1
     }
-    
-    
-}
+});

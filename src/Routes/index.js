@@ -1,25 +1,26 @@
-import React, { useContext } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { useSelector } from 'react-redux';
 
-import AppRoutes from './app.routes';
-import AuthRoutes from './auth.routes';
+import Login from '../Screens/Login';
+import Register from '../Screens/Register';
+import Main from '../Screens/Main';
 
-import AuthContext from '../Contexts/Auth';
+const AuthStack = createStackNavigator();
 
-const Routes = () => {
-  const { signed, loading } = useContext(AuthContext);
-
-
-  if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItem: 'center' }}>
-        <ActivityIndicator size='large' />
-      </View>
-    )
-  }
-
-  return signed ? <AppRoutes /> : <AuthRoutes />
+ 
+function Routes(){
+  return(    
+    <AuthStack.Navigator  
+        screenOptions={{
+            headerShown: false
+        }}
+    >
+      <AuthStack.Screen name="Login" component={Login} />
+      <AuthStack.Screen name="Main" component={Main} />
+      <AuthStack.Screen name="Register" component={Register} />   
+    </AuthStack.Navigator>
+  )
 }
 
 export default Routes;
-
